@@ -27,7 +27,7 @@ public class JmexeApplication {
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		ResponseEntity<String> response = restTemplate.exchange("http://91.241.64.178:7081/api/users", HttpMethod.GET, entity, String.class);
 		System.out.print("Заголовок Set-Cookie: ");// Определяем значение заголовка Set-Cookie
-		System.out.println(cookie = response.getHeaders().get("Set-Cookie").toString());//.substring(1,62)
+		System.out.println(cookie = response.getHeaders().get("Set-Cookie").toString().substring(1,62));//
 
 //	Добаление нового юзера
 		User user = new User(3L,"James","Brown",(byte)50);
@@ -36,9 +36,9 @@ public class JmexeApplication {
 		HttpEntity<User> entity1 = new HttpEntity<>(user,headers);
 		System.out.println("Запрос на добавление = user+header: " +  entity1);
 
-		response = restTemplate.exchange("http://91.241.64.178:7081/api/users", HttpMethod.POST, entity1, String.class);
+		ResponseEntity<String> response1 = restTemplate.exchange("http://91.241.64.178:7081/api/users", HttpMethod.POST, entity1, String.class);
 		//Получаем первую часть кода  5ebfeb
-		System.out.println("Первая часть кода: "+response.getBody());
+		System.out.println("Первая часть кода: "+response1.getBody());
 
 //  Запрос на изменение юзера
 		user.setName("Thomas");
@@ -46,21 +46,21 @@ public class JmexeApplication {
 		HttpEntity<User> entity2 = new HttpEntity<>(user,headers);
 		System.out.println("Запрос на изменение = user+header: " +  entity2);
 
-		response = restTemplate.exchange("http://91.241.64.178:7081/api/users", HttpMethod.POST, entity2, String.class);
+		ResponseEntity<String> response2 = restTemplate.exchange("http://91.241.64.178:7081/api/users/", HttpMethod.POST, entity2, String.class);
 		// Получаем вторую часть кода cea2a2
-		System.out.println("Вторая часть кода: " + response.getBody());
+		System.out.println("Вторая часть кода: " + response2.getBody());
 
 //  Запрос на удаление юзера
 
-		Map< String, String > params = new HashMap< String, String >();
-		params.put("?id", "3");
-		HttpEntity<Map> entity3 = new HttpEntity<Map>(params,headers);
-		System.out.println("Запрос на удаление = header: " +  entity3);
+//		Map< String, String > params = new HashMap< String, String >();
+//		params.put("?id", "3");
+//		HttpEntity<Map> entity3 = new HttpEntity<Map>(params,headers);
+		System.out.println("Запрос на удаление = header: " +  entity2);
 
-		response = restTemplate.exchange("http://91.241.64.178:7081/api/users/2", HttpMethod.DELETE, entity3, String.class);
+		ResponseEntity<String> response3 = restTemplate.exchange("http://91.241.64.178:7081/api/users/3", HttpMethod.DELETE, entity, String.class);
 
 // Получаем третью часть кода. Зависит от цифры в url: /1 - dbadfc если /2 - bbd25d /3 - ошибка
-		System.out.println("Третья часть кода: " + response.getBody());
+		System.out.println("Третья часть кода: " + response3.getBody());
 	}
 
 	@Bean
